@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.http.response import HttpResponse, HttpResponseNotFound
 from models import Photo, VISIBILITY_PUBLIC, VISIBILITY_PRIVATE
+from forms import LoginForm
+from django.db.models import Q
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -39,7 +42,12 @@ def photo_detail(request,pk):
     return objeto: response
     """
 
-    possible_photos = Photo.objects.filter(pk=pk, visibility=VISIBILITY_PUBLIC)
+    possible_photos= Photo.objects.filter(pk=pk)
+
+    if request.user.is_authenticated():
+        possible_photos = possible_photos.filter(Q(owner=request.user) | Q(visibility=VISIBILITY_PUBLIC))
+    else:
+         possible_photos = possible_photos.filter(visibility=VISIBILITY_PUBLIC)
 
     if len(possible_photos) == 0:
 
@@ -55,21 +63,32 @@ def user_login(request):
     error_messages = []
 
     if request.method == 'POST':
-        username = request.POST.get("user_name")
-        password = request.POST.get("user_password")
-        user = authenticate(username=username,password=password)
-        if user is None:
-            error_messages.append("Nombre de usuario o contrasena incorrectos")
-        else:
-            if user.is_active:
-                login(request,user) #crea sesion usuario
-                return redirect('/')
+
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+
+            username = login_form.cleaned_data.get("username")
+            password = login_form.cleaned_data.get("password")
+            user = authenticate(username=username,password=password)
+            if user is None:
+                error_messages.append("Nombre de usuario o contrasena incorrectos")
             else:
-                 error_messages.append("El usuario no esta activo")
+                if user.is_active:
+                    login(request,user) #crea sesion usuario
+                    next_url = request.GET.get('next','/')
+                    return redirect(next_url)
+                else:
+                     error_messages.append("El usuario no esta activo")
+
+
+    else:
+        login_form = LoginForm()
 
 
     context = {
+        'form': login_form,
         'errors': error_messages
+
     }
 
     return render(request,'photos/login.html',context)
@@ -78,3 +97,14 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect("/")
+
+@login_required() #forzamos a que el usuario este autenticado
+
+def user_profile(request):
+
+    context = {
+
+        'photos':request.user.photo_set.all()
+    }
+
+    return render(request,'photos/profile.html',context)

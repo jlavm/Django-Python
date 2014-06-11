@@ -8,9 +8,6 @@
       {% include 'photos/includes/menu.html' %}
        <h1>Bienvenido a Frikr!!</h1>
        <p>Frikr es como flickr pero en friki</p>
-        {% for photo in photos%}
-        <a href="/photos/{{photo.pk}}">
-        <img src="{{photo.url}}" alt="{{photo.name}}" height="150"></a>
-        {% endfor %}
+      {% include 'photos/includes/phot_list.html' %}
 </body>
 </html>
