@@ -8,5 +8,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^HellWorld$', 'phots.views.home'),
     url(r'^$', 'phots.views.home2'),
+    url(r'^login$', 'phots.views.user_login'),
+    url(r'^logout$', 'phots.views.user_logout'),
     url(r'^photos/(?P<pk>[0-9]+)$', 'phots.views.photo_detail')
 )
