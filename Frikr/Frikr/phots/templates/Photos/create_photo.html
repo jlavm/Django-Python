@@ -1,18 +1,22 @@
 {% extends 'photos/includes/base.html'%}
 {% block head_title %}
-Frikr Login
+Frikr Upload
 {% endblock %}
 
 {% block body_content %}
-       <h1>Bienvenido al login Frikr!!</h1>
+ <h1>Bienvenido al uploader Frikr!!</h1>
  {% for error in errors %}
  <p>{{erorr}}</p>
  {% endfor %}
 
+  {% if photo %}
+        <span style="color:green">Guardado con exito!!<a href="/photos/{{photo.pk}}">Ver foto</a> </span>
+  {% endif %}
+
   <form method="POST">
       {% csrf_token %}
       {{form.as_p}}
-       <p><button type="submit">Entrar</button></p>
+       <p><button type="submit">Subir</button></p>
   </form>
 
 {% endblock %}
