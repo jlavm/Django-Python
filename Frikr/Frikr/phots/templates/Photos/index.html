@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Bienvenido a Frikr!! como flickr pero en friki</title>
+</head>
+<body>
+       <h1>Bienvenido a Frikr!!</h1>
+       <p>Frikr es como flickr pero en friki</p>
+        {% for photo in photos%}
+        <a href="/photos/{{photo.pk}}">
+        <img src="{{photo.url}}" alt="{{photo.name}}" height="150"></a>
+        {% endfor %}
+</body>
+</html>
