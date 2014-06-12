@@ -1,4 +1,13 @@
-  {% for photo in photos%}
+<div class="container">
+<div class="row">
+{% for photo in photos%}
+      <div class="col-lg-3" style="margin-top: 20px;">
         <a href="/photos/{{photo.pk}}">
         <img src="{{photo.url}}" alt="{{photo.name}}" height="150" width="250"></a>
+      </div>
   {% endfor %}
+
+  </div>
+
+  </div> 
+
