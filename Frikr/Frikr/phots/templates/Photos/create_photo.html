@@ -4,7 +4,7 @@ Frikr Upload
 {% endblock %}
 
 {% block body_content %}
- <h1>Bienvenido al uploader Frikr!!</h1>
+ <h1 style="margin-top: 80px">Bienvenido al uploader Frikr!!</h1>
  {% for error in errors %}
  <p>{{erorr}}</p>
  {% endfor %}
@@ -13,7 +13,7 @@ Frikr Upload
         <span style="color:green">Guardado con exito!!<a href="/photos/{{photo.pk}}">Ver foto</a> </span>
   {% endif %}
 
-  <form method="POST">
+  <form method="POST" style="margin-top: 30px">
       {% csrf_token %}
       {{form.as_p}}
        <p><button type="submit">Subir</button></p>

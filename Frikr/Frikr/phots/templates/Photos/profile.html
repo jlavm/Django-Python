@@ -4,7 +4,7 @@ Perfil de {{ user.first_name}} {{user.last_name}}
 {% endblock %}
 
 {% block body_content %}
-<h1>Bienvenido a Frikr!!</h1>
-<p>Perfil de {{ user.first_name}} {{user.last_name}}</p>
+<h1 style="margin-top: 80px" >Bienvenido a Frikr!!</h1>
+<p style="margin-top: 20px">Perfil de {{ user.first_name}} {{user.last_name}}</p>
 {% include 'photos/includes/phot_list.html' %}
 {% endblock %}
